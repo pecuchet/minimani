@@ -1,0 +1,25 @@
+{
+  "name": "@dotburo/minimani",
+  "version": "1.0.0",
+  "description": "MiniManifest: map files names on their 'cache busting' version in a manifest.json file",
+  "main": "index.js",
+  "scripts": {
+    "test": "echo \"Error: no test specified\" && exit 1"
+  },
+  "repository": {
+    "type": "git",
+    "url": "git+https://github.com/pecuchet/minimani.git"
+  },
+  "author": "dotburo <code@dotburo.org> (https://dotburo.org)",
+  "license": "GPL-3.0+",
+  "bugs": {
+    "url": "https://github.com/pecuchet/minimani/issues"
+  },
+  "homepage": "https://github.com/pecuchet/minimani#readme",
+  "bin": {
+    "minimani": "./cli.js"
+  },
+  "dependencies": {
+    "commander": "^2.19.0"
+  }
+}
