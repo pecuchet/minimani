@@ -16,19 +16,26 @@ const
         manifestPath = path.join(cwd, 'manifest.json');
 
     commander
-        .usage('[options] <file>')
-        .option('-t, --tree <tree>', 'The path in the json tree separated by colons')
+        .usage('[options] <tree>')
+        .option('-p, --pretty', 'Pretty printing')
         .version(buildVersion, '-v, --version')
-        .option('-p, --pretty', 'Pretty print manifest file')
+        .description('Manifest.json generator. <tree> is a colon-separated json structure ending with the file you want to reference.')
         .parse(process.argv);
 
+    // Check if we have input
+    if (!commander.args[0]) {
+        console.error('No input specified.');
+        return 1;
+    }
 
-    let file = commander.args[0],
+    let jsonTree = commander.args[0].split(':'),
+        targetFile = jsonTree.pop(),
+        targetFilePath = path.join(cwd, targetFile),
         manifest = {};
 
-    // Check if we have the file that needs to be added to the manifest
-    if (!file || !fs.existsSync(file)) {
-        console.error('No input file!');
+    // Check if file that needs to be added to the manifest exits
+    if (!fs.existsSync(targetFilePath)) {
+        console.error('The input file "' + targetFilePath + '" does not exist.');
         return 1;
     }
 
@@ -38,17 +45,16 @@ const
         manifest = JSON.parse(manifest);
     }
 
-    let jsonPath = commander.tree.split(':'),
-        len = jsonPath.length,
-        last = jsonPath[len - 1],
-        bust = (new Date()).getTime(),
-        bustingName = file.replace(/(\.[^ .]+)?$/, `.${bust}$1`),
-        old = resolve(jsonPath, manifest);
+    let len = jsonTree.length,
+        last = jsonTree[len - 1],
+        bustSuffix = (new Date()).getTime(),
+        bustingName = targetFile.replace(/(\.[^ .]+)?$/, `.${bustSuffix}$1`),
+        old = resolve(jsonTree, manifest);
 
 
     try {
         if (old && fs.existsSync(old)) fs.unlinkSync(old);
-        fs.renameSync(file, bustingName)
+        fs.renameSync(targetFile, bustingName)
     } catch (e) {
     }
 
@@ -56,7 +62,7 @@ const
     if (!len) {
         manifest[last] = bustingName;
     } else {
-        jsonPath.reduce((o, i) => {
+        jsonTree.reduce((o, i) => {
             if (i !== last) {
                 if (o[i]) return o[i];
                 return o[i] = {};
