@@ -3,6 +3,9 @@
 For small web projects installing and configuring Webpack, or even Gulp or Grunt, can sometimes be overkill. A handful npm scripts could be enough. 
 Minimani will reference files in a manifest file appending a timestamp to them and deleting the previously referenced one.
 
+## Installation
+`npm i @dotburo/minimani`
+
 ## Examples
 
 A simple npm script may look like this:  
