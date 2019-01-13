@@ -1,7 +1,7 @@
 {
   "name": "@dotburo/minimani",
-  "version": "1.0.0",
-  "description": "MiniManifest: map files names on their 'cache busting' version in a manifest.json file",
+  "version": "1.1.0",
+  "description": "Mini manifest utility: reference web assets with a cache busting suffix in a json file",
   "main": "index.js",
   "scripts": {
     "test": "echo \"Error: no test specified\" && exit 1"
